@@ -24,3 +24,9 @@ header{
     gap: 20px;
     margin-left: auto;
 }
+.NavbarItem{
+    text-decoration: none;
+}
+
+/*Hero CSS stuff*/
+
