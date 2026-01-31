@@ -39,11 +39,12 @@ input:focus{
 
 /*Classes*/
 .container{
-    height: 100vh; 
+    min-height: 100vh; 
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px; 
+    background-color: #f0f2f5;
 }
 .login-box{
     background: white;
@@ -53,6 +54,8 @@ input:focus{
     width: 100%;
     max-width: 400px;
     text-align: center;
+    height: auto;
+    margin: 20px 0;
 }
 .login-logo{
     width: 60px;
