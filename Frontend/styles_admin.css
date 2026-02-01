@@ -3,19 +3,71 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Montserrat', sans-serif;
 }
 
 body{
-    background-color: #F9FAFB;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Inter, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+    background: radial-gradient(1100px 800px at 20% 10%, rgba(124,168,255,0.14), transparent 55%),
+                radial-gradient(900px 700px at 90% 0%, rgba(154,124,255,0.12), transparent 55%),
+                #0b1220;
+    color: #eaf0ff;
+}
+
+:root{
+    --bg: #0b1220;
+    --surface: rgba(255,255,255,0.08);
+    --surface-2: rgba(255,255,255,0.12);
+    --text: #eaf0ff;
+    --muted: rgba(234,240,255,0.72);
+    --border: rgba(234,240,255,0.16);
+    --shadow: 0 22px 60px rgba(0,0,0,0.35);
+    --shadow-soft: 0 12px 30px rgba(0,0,0,0.25);
+    --radius: 18px;
+    --radius-sm: 12px;
+    --ring: 0 0 0 4px rgba(124,168,255,0.22);
+    --brand: #7ca8ff;
+    --brand-2: #9a7cff;
+    --cta: linear-gradient(135deg, var(--brand), var(--brand-2));
+    --good: #4CAF50;
+    --danger: #ff4d4d;
+}
+
+a{ color: inherit; }
+
+button, input{
+    font-family: inherit;
+}
+
+button{
+    border: 1px solid rgba(255,255,255,0.16);
+    border-radius: 999px;
+    padding: 10px 16px;
+    cursor: pointer;
+    background: rgba(255,255,255,0.10);
+    color: var(--text);
+    transition: transform 120ms ease, box-shadow 140ms ease, background 180ms ease, border-color 180ms ease;
+}
+
+button:hover{
+    background: rgba(255,255,255,0.14);
+    border-color: rgba(255,255,255,0.22);
+}
+
+button:active{ transform: translateY(1px); }
+
+button:focus-visible{
+    outline: none;
+    box-shadow: var(--ring);
 }
 
 /*Header CSS stuff*/
 header{
     display: flex;
     align-items: center;
-    padding: 10px 20px;
-      background-color: #556875;
+    padding: 16px 22px;
+    background: rgba(11,18,32,0.65);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(10px);
 
 }
 
@@ -36,6 +88,8 @@ header{
     height: 60px;
     border-radius: 50%;
     object-fit: cover;
+    border: 1px solid rgba(255,255,255,0.18);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.35);
 }
 .Navbar{
     display: flex;
@@ -53,20 +107,21 @@ header{
 /* Apply the styling directly to the buttons and status text */
 .NavbarItem button, 
 #connection-status {
-    background-color: #394E63;
-    color: white;
-    border: none;
-    padding: 10px 20px; /* Adjusted padding for a cleaner look */
-    border-radius: 8px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-family: inherit; /* Ensures font matches the rest of the app */
+    background: rgba(255,255,255,0.10);
+    color: var(--text);
+    border: 1px solid rgba(255,255,255,0.16);
+    padding: 10px 16px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
 }
 
 /* Add a hover effect for the buttons specifically */
 .NavbarItem button:hover {
-    background-color: #2c3e50;
+    background: rgba(255,255,255,0.14);
+    border-color: rgba(255,255,255,0.22);
+    box-shadow: var(--shadow-soft);
 }
 
 /* Keep the status span unclickable if you prefer */
@@ -76,26 +131,28 @@ header{
 
 /*Button stuff*/
 .budget-card{
-    background-color: #F9FAFB;
+    background: var(--surface);
     padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
     width: 300px;
     text-align: center;
+    box-shadow: var(--shadow-soft);
+    backdrop-filter: blur(10px);
 }
 .progress-container {
   width: 100%;
   height: 25px;
-  background-color: #f0f0f0;
-  border: 1px solid #333;
-  border-radius: 5px;
+  background-color: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: 999px;
   position: relative;
   margin: 15px 0;
   overflow: hidden;
 }
 .progress-fill {
   height: 100%;
-  background-color: #4CAF50; /* Green fill */
+  background-color: var(--good);
   transition: width 0.3s ease-in-out;
 }
 
@@ -110,16 +167,15 @@ header{
 
 /*Subscription CSS stuff*/
 .subscriptions-container {
-  font-family: 'Inter', sans-serif;
-  max-width: 350px;
+  max-width: 380px;
 }
 
 .sub-row {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr; /* Name, Icon, Amount, Date */
   align-items: center;
-  background-color: #F2EFE5; /* Off-white/cream background from Figma */
-  border: 1px solid #d1d1d1;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.14);
   border-radius: 12px;
   padding: 12px 15px;
   margin-bottom: 8px;
@@ -127,8 +183,8 @@ header{
 }
 
 .sub-row.empty {
-  background-color: #F9FAFB;
-  border: 1px solid #eee;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
 }
 
 .sub-icon {
@@ -143,20 +199,21 @@ header{
 
 .sub-date {
   font-size: 0.8rem;
-  color: #666;
+  color: var(--muted);
   text-align: right;
 }
 
 /*Daily stuff*/
 .spending-card {
   width: 320px;
-  font-family: 'Inter', sans-serif;
 }
 
 .spending-list {
-  border: 1px solid #333;
-  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: var(--radius);
   overflow: hidden; /* Clips the inner corners */
+  background: rgba(255,255,255,0.06);
+  box-shadow: var(--shadow-soft);
 }
 
 .spending-row {
@@ -164,21 +221,21 @@ header{
   grid-template-columns: 1fr 40px 80px; /* Name, Icon, Amount */
   align-items: center;
   padding: 12px 15px;
-  border-bottom: 1px solid #eee;
-  background-color: #F2EFE5;
+  border-bottom: 1px solid rgba(255,255,255,0.10);
+  background: transparent;
 }
 
 /* Figma styling: The Total row has a distinct blue/grey tint */
 .total-row {
-  background-color: #CED5DB; 
+  background-color: rgba(124,168,255,0.18);
   font-weight: bold;
-  border-bottom: 2px solid #333;
+  border-bottom: 1px solid rgba(255,255,255,0.16);
 }
 
 .scroll-area {
   max-height: 200px; /* Height of roughly 3-4 rows */
   overflow-y: auto;
-  background-color: #FDF8F0; /* Cream background from screenshot */
+  background: transparent;
 }
 
 .spending-icon {
@@ -194,11 +251,12 @@ header{
 /*Spending Chart*/
 .chart-card {
   width: 350px;
-  font-family: 'Inter', sans-serif;
   padding: 20px;
-  background: #fff;
-  border-radius: 15px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(10px);
 }
 
 .chart-container {
@@ -222,7 +280,7 @@ header{
 .inner-circle {
   width: 100px;
   height: 100px;
-  background: white;
+  background: rgba(11,18,32,0.85);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -240,6 +298,7 @@ header{
   align-items: center;
   margin-bottom: 8px;
   font-size: 0.9rem;
+  color: var(--muted);
 }
 
 .dot {
@@ -249,15 +308,6 @@ header{
   margin-right: 8px;
 }
 
-
-.goal-item {
-  display: flex;
-  justify-content: space-between;
-  padding: 15px;
-  background-color: #FDF8F0;
-  border-bottom: 1px solid #333;
-  font-family: 'Inter', sans-serif;
-}
 
 /* Modal Overlay */
 .modal-overlay {
@@ -272,28 +322,33 @@ header{
 }
 
 .modal-content {
-  background: white;
+  background: rgba(11,18,32,0.92);
   padding: 25px;
-  border-radius: 15px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
   width: 300px;
   display: flex;
   flex-direction: column;
   gap: 12px;
+  color: var(--text);
+  box-shadow: var(--shadow);
 }
 
 .modal-content input {
   padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.08);
+  color: var(--text);
 }
 
 .save-btn {
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  padding: 10px;
-  border-radius: 5px;
-  cursor: pointer;
+  background: var(--cta);
+  color: #0b1220;
+  border: 1px solid rgba(255,255,255,0.18);
+  padding: 10px 14px;
+  border-radius: 999px;
+  font-weight: 800;
 }
 
 /* Container for the 4 main widgets */
@@ -323,12 +378,13 @@ header{
 .goals-container {
     width: 100%;
     max-width: 500px; 
-    background-color: #fff;
-    border: 1px solid #333;
-    border-radius: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
     overflow: hidden;
     padding: 20px; /* This prevents text from touching the borders */
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    box-shadow: var(--shadow-soft);
+    backdrop-filter: blur(10px);
 }
 
 .goals-header {
@@ -337,7 +393,7 @@ header{
     align-items: center;
     margin-bottom: 20px;
     padding-bottom: 10px;
-    border-bottom: 1px solid #eee; /* Optional: adds a nice separator */
+    border-bottom: 1px solid rgba(255,255,255,0.10);
 }
 
 /* Ensure the plus button has its own space */
@@ -345,8 +401,9 @@ header{
     padding: 5px 12px;
     cursor: pointer;
     border-radius: 6px;
-    border: 1px solid #ddd;
-    background: #f9f9f9;
+    border: 1px solid rgba(255,255,255,0.16);
+    background: rgba(255,255,255,0.10);
+    color: var(--text);
 }
 
 .goal-item {
@@ -354,7 +411,7 @@ header{
     justify-content: space-between;
     align-items: center;
     padding: 15px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid rgba(255,255,255,0.10);
 }
 
 .goal-info {
@@ -370,18 +427,19 @@ header{
     font-size: 1.2rem;
     padding: 5px 10px;
     transition: transform 0.2s;
+    color: var(--text);
 }
 
-.edit-goal-btn { color: #394E63; }
-.delete-goal-btn { color: #ff4d4d; }
+.edit-goal-btn { color: var(--brand); }
+.delete-goal-btn { color: var(--danger); }
 
 .goal-actions button:hover {
     transform: scale(1.2);
 }
 #edit-btn {
-    background-color: transparent;
-    color: #394E63; /* Matches your header theme */
-    border: 1px solid #394E63;
+    background-color: rgba(255,255,255,0.08);
+    color: var(--text);
+    border: 1px solid rgba(255,255,255,0.16);
     padding: 2px 8px;
     margin-left: 10px;
     border-radius: 4px;
@@ -391,8 +449,7 @@ header{
 }
 
 #edit-btn:hover {
-    background-color: #394E63;
-    color: white;
+    background-color: rgba(255,255,255,0.14);
 }
 #edit-fields {
     margin-top: 15px;
@@ -403,23 +460,46 @@ header{
 
 #edit-fields input {
     padding: 6px 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.16);
+    border-radius: 12px;
     width: 100px;
     outline: none;
+    background: rgba(255,255,255,0.08);
+    color: var(--text);
 }
 
 #edit-fields button {
-    background-color: #4CAF50; /* Green to match your progress bar */
-    color: white;
-    border: none;
+    background: var(--cta);
+    color: #0b1220;
+    border: 1px solid rgba(255,255,255,0.18);
     padding: 6px 15px;
-    border-radius: 4px;
+    border-radius: 999px;
     font-weight: bold;
     cursor: pointer;
     transition: background 0.2s;
 }
 
 #edit-fields button:hover {
-    background-color: #45a049;
+    filter: brightness(1.03);
+}
+
+/* Responsive: collapse dashboard grid on small screens */
+@media (max-width: 900px){
+    .dashboard-grid{
+        grid-template-columns: 1fr;
+        padding: 24px 16px;
+        gap: 18px;
+        max-width: 720px;
+    }
+    header{
+        padding: 14px 16px;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+    .Navbar{
+        width: 100%;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
 }
