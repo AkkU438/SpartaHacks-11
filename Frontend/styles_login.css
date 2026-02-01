@@ -7,7 +7,7 @@
 
 /*Elements*/
 body{
-    background-color: lightgray;
+    background-color: #5C7996;
 }
 h2{
     margin-bottom: 10px;
@@ -44,10 +44,9 @@ input:focus{
     justify-content: center;
     align-items: center;
     padding: 20px; 
-    background-color: #f0f2f5;
 }
 .login-box{
-    background: white;
+    background: #F9FAFB;
     padding: 40px;
     border-radius: 12px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
@@ -70,7 +69,7 @@ input:focus{
 .login-button{
     width: 100%;
     padding: 12px;
-    background-color: #2ecc71;
+    background-color: #394E63;
     color: white;
     border: none;
     border-radius: 6px;
@@ -79,14 +78,14 @@ input:focus{
     cursor: pointer;
 }
 .login-button:hover{
-    background-color: #27ae60;
+    background-color: #56687A;
 }
 .login-footer{
     margin-top: 25px;
     font-size: 0.9rem;
 }
 .login-footer a {
-    color: #2ecc71;
+    color: #5a9de0;
     text-decoration: none;
 }
 .back-home {
