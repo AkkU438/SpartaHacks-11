@@ -18,6 +18,19 @@ header{
       background-color: #556875;
 
 }
+
+.BrandName{
+    font-size: 40px;
+    font-weight: bold;
+    margin-left: 10px;
+    padding-left: 10px;
+}
+
+.BrandName a{
+    text-decoration: none;
+    color: white;
+}
+
 .logo{
     width: 60px;
     height: 60px;
