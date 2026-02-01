@@ -1,11 +1,39 @@
 // ----- API Utility -----
 
+function redirectToLogin() {
+    window.location.href = '/login.html';
+}
+
+function never() {
+    // Used after redirect to stop further rendering in this script execution.
+    return new Promise(() => {});
+}
+
+function toNumber(value, fallback = 0) {
+    const n = Number(value);
+    return Number.isFinite(n) ? n : fallback;
+}
+
+function toText(value, fallback = '') {
+    if (value === null || value === undefined) return fallback;
+    return String(value);
+}
+
+function toColor(value, fallback = '#999') {
+    const s = toText(value, '').trim();
+    return s ? s : fallback;
+}
+
 async function fetchWithFallback(url, fallbackData, options = {}) {
     try {
         const res = await fetch(url, {
             credentials: 'include',
             ...options
         });
+        if (res.status === 401 || res.status === 403) {
+            redirectToLogin();
+            return await never();
+        }
         if (!res.ok) throw new Error('API error');
         return await res.json();
     } catch (err) {
@@ -69,19 +97,36 @@ let spendingCategories = [];
 let goals = [];
 let isConnected = false;
 
+async function requireAuth() {
+    try {
+        const res = await fetch('/api/v1/auth/me', { credentials: 'include' });
+        if (res.status === 401 || res.status === 403) {
+            redirectToLogin();
+            return await never();
+        }
+        // If API is down or errors, allow demo fallback behavior.
+        return;
+    } catch {
+        return;
+    }
+}
+
 // ----- Budget -----
 
 function updateBudgetUI() {
-    const percentage = Math.min((spent / limit) * 100, 100).toFixed(0);
+    const safeLimit = toNumber(limit, 0);
+    const safeSpent = toNumber(spent, 0);
+    const percentage =
+        safeLimit > 0 ? Math.min((safeSpent / safeLimit) * 100, 100).toFixed(0) : '0';
     
     const budgetLimitEl = document.getElementById('budget-limit');
     const progressTextEl = document.getElementById('progress-text');
     const spentAmountEl = document.getElementById('spent-amount');
     const progressBarEl = document.getElementById('progress-bar');
     
-    if (budgetLimitEl) budgetLimitEl.innerText = limit;
+    if (budgetLimitEl) budgetLimitEl.innerText = safeLimit;
     if (progressTextEl) progressTextEl.innerText = `${percentage}%`;
-    if (spentAmountEl) spentAmountEl.innerText = spent.toFixed(2);
+    if (spentAmountEl) spentAmountEl.innerText = safeSpent.toFixed(2);
     if (progressBarEl) {
         progressBarEl.style.width = `${percentage}%`;
         progressBarEl.style.backgroundColor = percentage >= 100 ? "#ff4d4d" : "#4CAF50";
@@ -90,8 +135,8 @@ function updateBudgetUI() {
 
 async function loadBudget() {
     const data = await fetchWithFallback('/api/v1/budget', MOCK_BUDGET);
-    spent = data.spent || 0;
-    limit = data.limit || 3000;
+    spent = toNumber(data?.spent, 0);
+    limit = toNumber(data?.limit, 3000);
     updateBudgetUI();
 }
 
@@ -104,8 +149,8 @@ async function updateBudget() {
             const res = await putJson('/api/v1/budget', { limit: newLimit });
             if (res.ok) {
                 const data = await res.json();
-                limit = data.limit;
-                spent = data.spent;
+                limit = toNumber(data?.limit, newLimit);
+                spent = toNumber(data?.spent, spent);
             } else {
                 // Fallback to local update
                 limit = newLimit;
@@ -162,7 +207,13 @@ function renderSubscriptionsUI() {
     container.innerHTML = '';
     
     subscriptionData.forEach(sub => {
-        const row = createSubscriptionRow(sub.name, sub.icon, `$${sub.amount}`, sub.date);
+        const amount = toNumber(sub?.amount, 0);
+        const row = createSubscriptionRow(
+            toText(sub?.name, 'Unknown'),
+            toText(sub?.icon, '💳'),
+            `$${amount.toFixed(2)}`,
+            toText(sub?.date, '')
+        );
         container.appendChild(row);
     });
     
@@ -176,7 +227,8 @@ function renderSubscriptionsUI() {
 }
 
 async function loadSubscriptions() {
-    subscriptionData = await fetchWithFallback('/api/v1/subscriptions', MOCK_SUBSCRIPTIONS);
+    const data = await fetchWithFallback('/api/v1/subscriptions', MOCK_SUBSCRIPTIONS);
+    subscriptionData = Array.isArray(data) ? data : [];
     renderSubscriptionsUI();
 }
 
@@ -190,22 +242,23 @@ function renderSpendingUI() {
     container.innerHTML = '';
     
     dailyTransactions.forEach(item => {
-        total += item.amount;
+        const amount = toNumber(item?.amount, 0);
+        total += amount;
         
         const row = document.createElement('div');
         row.className = 'spending-row';
         
         const nameSpan = document.createElement('span');
         nameSpan.className = 'spending-name';
-        nameSpan.textContent = item.name;
+        nameSpan.textContent = toText(item?.name, 'Unknown');
         
         const iconSpan = document.createElement('span');
         iconSpan.className = 'spending-icon';
-        iconSpan.textContent = item.icon;
+        iconSpan.textContent = toText(item?.icon, '💳');
         
         const amountSpan = document.createElement('span');
         amountSpan.className = 'spending-amount';
-        amountSpan.textContent = `$${item.amount.toFixed(2)}`;
+        amountSpan.textContent = `$${amount.toFixed(2)}`;
         
         row.appendChild(nameSpan);
         row.appendChild(iconSpan);
@@ -220,7 +273,8 @@ function renderSpendingUI() {
 }
 
 async function loadDailySpending() {
-    dailyTransactions = await fetchWithFallback('/api/v1/spending/daily', MOCK_TRANSACTIONS);
+    const data = await fetchWithFallback('/api/v1/spending/daily', MOCK_TRANSACTIONS);
+    dailyTransactions = Array.isArray(data) ? data : [];
     renderSpendingUI();
 }
 
@@ -233,8 +287,8 @@ function updateChartUI() {
     
     if (!chart || !legend || !totalDisplay) return;
     
-    const total = spendingCategories.reduce((sum, cat) => sum + cat.amount, 0);
-    totalDisplay.innerText = `$${total}`;
+    const total = spendingCategories.reduce((sum, cat) => sum + toNumber(cat?.amount, 0), 0);
+    totalDisplay.innerText = `$${total.toFixed(2)}`;
     
     if (total === 0) {
         chart.style.background = `conic-gradient(#eee 0% 100%)`;
@@ -248,11 +302,13 @@ function updateChartUI() {
     legend.innerHTML = "";
     
     spendingCategories.forEach((cat, index) => {
-        const percent = (cat.amount / total) * 100;
+        const amount = toNumber(cat?.amount, 0);
+        const percent = (amount / total) * 100;
         const start = cumulativePercent;
         cumulativePercent += percent;
         
-        gradientString += `${cat.color} ${start}% ${cumulativePercent}%`;
+        const color = toColor(cat?.color, '#999');
+        gradientString += `${color} ${start}% ${cumulativePercent}%`;
         if (index < spendingCategories.length - 1) gradientString += ", ";
         
         const item = document.createElement('div');
@@ -260,10 +316,10 @@ function updateChartUI() {
         
         const dot = document.createElement('span');
         dot.className = 'dot';
-        dot.style.background = cat.color;
+        dot.style.background = color;
         
         const label = document.createElement('span');
-        label.textContent = `${cat.name}: $${cat.amount}`;
+        label.textContent = `${toText(cat?.name, 'Unknown')}: $${amount.toFixed(2)}`;
         
         item.appendChild(dot);
         item.appendChild(label);
@@ -274,7 +330,8 @@ function updateChartUI() {
 }
 
 async function loadCategories() {
-    spendingCategories = await fetchWithFallback('/api/v1/spending/categories', MOCK_CATEGORIES);
+    const data = await fetchWithFallback('/api/v1/spending/categories', MOCK_CATEGORIES);
+    spendingCategories = Array.isArray(data) ? data : [];
     updateChartUI();
 }
 
@@ -287,15 +344,19 @@ function renderGoalsUI() {
     list.innerHTML = '';
     
     goals.forEach((goal, index) => {
+        const name = toText(goal?.name, 'Untitled goal');
+        const monthly = toNumber(goal?.monthly, 0);
+        const total = toNumber(goal?.total, 0);
+
         const div = document.createElement('div');
         div.className = 'goal-item';
         
         div.innerHTML = `
             <div class="goal-info">
-                <span class="goal-name">${goal.name}</span>
+                <span class="goal-name">${name}</span>
                 <div class="goal-amounts">
-                    <span class="monthly-rate">$${goal.monthly}/m</span>
-                    <span class="total-target">Target: $${goal.total}</span>
+                    <span class="monthly-rate">$${monthly}/m</span>
+                    <span class="total-target">Target: $${total}</span>
                 </div>
             </div>
             <div class="goal-actions">
@@ -319,9 +380,9 @@ function editGoal(index) {
     const goal = goals[index];
     
     // Fill the modal fields with existing data
-    document.getElementById('goal-name').value = goal.name;
-    document.getElementById('goal-monthly').value = goal.monthly;
-    document.getElementById('goal-total').value = goal.total;
+    document.getElementById('goal-name').value = toText(goal?.name, '');
+    document.getElementById('goal-monthly').value = toText(goal?.monthly, '');
+    document.getElementById('goal-total').value = toText(goal?.total, '');
     // Note: goal.date handling depends on your specific date format
     
     openModal();
@@ -331,7 +392,8 @@ function editGoal(index) {
 }
 
 async function loadGoals() {
-    goals = await fetchWithFallback('/api/v1/goals', MOCK_GOALS);
+    const data = await fetchWithFallback('/api/v1/goals', MOCK_GOALS);
+    goals = Array.isArray(data) ? data : [];
     renderGoalsUI();
 }
 
@@ -386,6 +448,10 @@ async function saveGoal() {
 async function checkPlaidStatus() {
     try {
         const res = await fetch('/api/v1/plaid/status', { credentials: 'include' });
+        if (res.status === 401 || res.status === 403) {
+            redirectToLogin();
+            return await never();
+        }
         if (res.ok) {
             const data = await res.json();
             isConnected = data.connected;
@@ -415,6 +481,10 @@ function updateConnectionUI() {
 async function connectBank() {
     try {
         const res = await postJson('/api/v1/plaid/connect', {});
+        if (res.status === 401 || res.status === 403) {
+            redirectToLogin();
+            return await never();
+        }
         if (res.ok) {
             isConnected = true;
             updateConnectionUI();
@@ -429,6 +499,10 @@ async function connectBank() {
 async function disconnectBank() {
     try {
         const res = await postJson('/api/v1/plaid/disconnect', {});
+        if (res.status === 401 || res.status === 403) {
+            redirectToLogin();
+            return await never();
+        }
         if (res.ok) {
             isConnected = false;
             updateConnectionUI();
@@ -464,6 +538,7 @@ async function loadAllData() {
 }
 
 async function init() {
+    await requireAuth();
     await checkPlaidStatus();
     await loadAllData();
 }
