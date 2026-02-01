@@ -27,3 +27,232 @@ header{
 .NavbarItem{
     text-decoration: none;
 }
+
+/*Button stuff*/
+.budget-card{
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    width: 300px;
+    text-align: center;
+}
+.progress-container {
+  width: 100%;
+  height: 25px;
+  background-color: #f0f0f0;
+  border: 1px solid #333;
+  border-radius: 5px;
+  position: relative;
+  margin: 15px 0;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background-color: #4CAF50; /* Green fill */
+  transition: width 0.3s ease-in-out;
+}
+
+#progress-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+/*Subscription CSS stuff*/
+.subscriptions-container {
+  font-family: 'Inter', sans-serif;
+  max-width: 350px;
+}
+
+.sub-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr; /* Name, Icon, Amount, Date */
+  align-items: center;
+  background-color: #fdf8f0; /* Off-white/cream background from Figma */
+  border: 1px solid #d1d1d1;
+  border-radius: 12px;
+  padding: 12px 15px;
+  margin-bottom: 8px;
+  min-height: 50px;
+}
+
+.sub-row.empty {
+  background-color: transparent;
+  border: 1px solid #eee;
+}
+
+.sub-icon {
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.sub-amount {
+  font-weight: bold;
+  text-align: right;
+}
+
+.sub-date {
+  font-size: 0.8rem;
+  color: #666;
+  text-align: right;
+}
+
+/*Daily stuff*/
+.spending-card {
+  width: 320px;
+  font-family: 'Inter', sans-serif;
+}
+
+.spending-list {
+  border: 1px solid #333;
+  border-radius: 12px;
+  overflow: hidden; /* Clips the inner corners */
+}
+
+.spending-row {
+  display: grid;
+  grid-template-columns: 1fr 40px 80px; /* Name, Icon, Amount */
+  align-items: center;
+  padding: 12px 15px;
+  border-bottom: 1px solid #eee;
+  background-color: #fff;
+}
+
+/* Figma styling: The Total row has a distinct blue/grey tint */
+.total-row {
+  background-color: #D1D9E0; 
+  font-weight: bold;
+  border-bottom: 2px solid #333;
+}
+
+.scroll-area {
+  max-height: 200px; /* Height of roughly 3-4 rows */
+  overflow-y: auto;
+  background-color: #FDF8F0; /* Cream background from screenshot */
+}
+
+.spending-icon {
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.spending-amount {
+  text-align: right;
+  font-family: monospace;
+}
+
+/*Spending Chart*/
+.chart-card {
+  width: 350px;
+  font-family: 'Inter', sans-serif;
+  padding: 20px;
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.chart-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.donut-chart {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  /* Default grey if 0 spending */
+  background: conic-gradient(#eee 0% 100%); 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.5s ease;
+}
+
+.inner-circle {
+  width: 100px;
+  height: 100px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.legend {
+  flex-grow: 1;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+/*Modal table*/
+/* Goals Table Styling */
+.goals-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.goal-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  background-color: #FDF8F0;
+  border-bottom: 1px solid #333;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  display: none; /* Hidden by default */
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modal-content input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.save-btn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
