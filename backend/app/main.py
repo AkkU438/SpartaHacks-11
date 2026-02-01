@@ -8,12 +8,17 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.api.v1.router import api_router
 from app.core.config import settings
 from app.core.logging import configure_logging
+from app.db.mongo import close_db, connect_db
 
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
     configure_logging(settings.log_level)
-    yield
+    await connect_db()
+    try:
+        yield
+    finally:
+        await close_db()
 
 
 def create_app() -> FastAPI:
@@ -31,7 +36,6 @@ def create_app() -> FastAPI:
 
     app.include_router(api_router, prefix=settings.api_v1_str)
 
-    # Convenience root + health without API prefix (optional)
     @app.get("/")
     def root() -> dict:
         return {"name": settings.app_name, "env": settings.env}
@@ -44,3 +48,4 @@ def create_app() -> FastAPI:
 
 
 app = create_app()
+
