@@ -10,9 +10,15 @@
         <header class="header">
             <img src="images/Placeholder.png" alt="logo" class="logo" />
             <ul class="Navbar">
-                <li class="NavbarItem"><a href="#">Nav 1</a></li>
-                <li class="NavbarItem"><a href="#">Nav 2</a></li>
-                <li class="NavbarItem"><a href="#">Nav 3</a></li>
+                <li class="NavbarItem">
+                    <span id="connection-status" style="font-size: 0.9em; color: #888;">Not connected</span>
+                </li>
+                <li class="NavbarItem">
+                    <button id="connect-bank-btn" onclick="connectBank()" style="background: #4CAF50; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Connect Bank</button>
+                </li>
+                <li class="NavbarItem">
+                    <button onclick="logout()" style="background: #ff4d4d; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Logout</button>
+                </li>
             </ul>
         </header>
 

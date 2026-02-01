@@ -6,7 +6,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
-        env_file="backend/.env",
+        env_file=(".env", "backend/.env"),
         env_file_encoding="utf-8",
         extra="ignore",
     )
@@ -14,9 +14,8 @@ class Settings(BaseSettings):
     mongodb_uri: str = Field(..., alias="MONGODB_URI")
     db_name: str = Field(default="FinFancy", alias="MONGODB_DB_NAME")
 
-    jwt_secret: str = Field(..., alias="JWT_SECRET")
-    jwt_algorithm: str = Field(default="HS256", alias="JWT_ALGORITHM")
-    jwt_exp_minutes: int = Field(default=60 * 24, alias="JWT_EXP_MINUTES")
+    # Session expiry (in minutes) - default 24 hours
+    session_exp_minutes: int = Field(default=60 * 24, alias="SESSION_EXP_MINUTES")
 
     app_name: str = Field(default="SpartaHacks-11 API", alias="APP_NAME")
     env: str = Field(default="local", alias="ENV")

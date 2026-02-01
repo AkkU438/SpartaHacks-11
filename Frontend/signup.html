@@ -12,75 +12,93 @@
                 <img src="images/Placeholder.png" alt="logo" class="login-logo" />
                 <h2>Create Account</h2>
                 <p>Start saving money today</p>
-                <form>
+                <form id="signup-form">
                     <div class="input-group">
                         <label for="fname">First name</label>
-                        <input type="text" id="fname" name="fname" placeholder="John" required />
+                        <input type="text" id="fname" name="fname" placeholder="John" autocomplete="given-name" required />
                     </div>
                     <div class="input-group">
                         <label for="lname">Last name</label>
-                        <input type="text" id="lname" name="lname" placeholder="Doe" required />
+                        <input type="text" id="lname" name="lname" placeholder="Doe" autocomplete="family-name" required />
                     </div>
                     <div class="input-group">
                         <label for="email">Email address</label>
-                        <input type="email" id="email" name="email" placeholder="name@gmail.com" required />
+                        <input type="email" id="email" name="email" placeholder="name@gmail.com" autocomplete="email" required />
                     </div>
                     <div class="input-group">
                         <label for="password">Password</label>
-                        <input type="password" id="password" name="password" placeholder="*******" required />
+                        <input type="password" id="password" name="password" placeholder="*******" autocomplete="new-password" minlength="8" required />
+                        <small style="color: #888; font-size: 0.8em;">Must be at least 8 characters</small>
                     </div>
+                    <p id="error-message" style="color: #ff4d4d; display: none; margin-top: 10px;" role="alert"></p>
+                    <p id="success-message" style="color: #4CAF50; display: none; margin-top: 10px;" role="status"></p>
+                    <button type="submit" class="login-button">Sign Up</button>
                 </form>
-                <button type="submit" class="login-button">Sign Up</button>
                 <div class="login-footer">
-                    <p>Already have an account? <a href="login.html">Sign</a></p>
+                    <p>Already have an account? <a href="login.html">Sign in</a></p>
                     <a href="index.html" class="back-home">Back to home</a>
                 </div>
             </div>
         </div>
+        <script>
+            document.getElementById('signup-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const firstName = document.getElementById('fname').value;
+                const lastName = document.getElementById('lname').value;
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                const errorEl = document.getElementById('error-message');
+                const successEl = document.getElementById('success-message');
+                
+                errorEl.style.display = 'none';
+                successEl.style.display = 'none';
+                
+                if (!firstName || !lastName || !email || !password) {
+                    errorEl.textContent = 'Please fill in all fields';
+                    errorEl.style.display = 'block';
+                    return;
+                }
+                
+                if (password.length < 8) {
+                    errorEl.textContent = 'Password must be at least 8 characters';
+                    errorEl.style.display = 'block';
+                    return;
+                }
+                
+                try {
+                    const res = await fetch('/api/v1/auth/register', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        credentials: 'include',
+                        body: JSON.stringify({
+                            email,
+                            password,
+                            first_name: firstName,
+                            last_name: lastName
+                        })
+                    });
+                    
+                    const data = await res.json();
+                    
+                    if (!res.ok) {
+                        errorEl.textContent = data.detail || 'Registration failed';
+                        errorEl.style.display = 'block';
+                        return;
+                    }
+                    
+                    // Success - show message and redirect to login
+                    successEl.textContent = 'Account created! Redirecting to login...';
+                    successEl.style.display = 'block';
+                    
+                    setTimeout(() => {
+                        window.location.href = '/login.html';
+                    }, 1500);
+                } catch (err) {
+                    errorEl.textContent = 'Network error. Please try again.';
+                    errorEl.style.display = 'block';
+                }
+            });
+        </script>
     </body>
 </html>
-
-
-<!--
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Signup</title>
-        <link rel="stylesheet" href="styles2.css" />
-    </head>
-    <body>
-        <div class="container">
-            <div>
-                <img src="images/Placeholder.png" alt="logo" class="login-logo" />
-
-
-                <form>
-                    <div class="input-group">
-                        <label for="fname">First name</label>
-                        <input type="text" id="fname" name="fname" placeholder="John" required>
-                    </div>
-                    <div class="input-group">
-                        <label for="lname">Last name</label>
-                        <input type="text" id="lname" name="lname" placeholder="Doe" required>
-                    </div>
-                    <div class="input-group">
-                        <label for="email">Email address</label>
-                        <input type="email" id="email" name="email" placeholder="name@gmail.com" required>
-                    </div>
-                    <div class="input-group">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" name="password" placeholder="********" required>
-                    </div>
-                    <button type="submit" class="login-button">Create Account</button>
-                </form>
-                <div class="login-footer">
-                    <p>Already have an account? <a href="login.html">Login</a></p>
-                    <a href="index.html" class="back-home">Back to home</a>
-                </div>
-            </div>
-        </div>
-    </body>
-</html>
--->
