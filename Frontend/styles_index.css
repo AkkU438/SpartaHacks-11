@@ -3,93 +3,27 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
-
-:root{
-    --bg: #0b1220;
-    --surface: rgba(255, 255, 255, 0.08);
-    --surface-2: rgba(255, 255, 255, 0.12);
-    --text: #eaf0ff;
-    --muted: rgba(234, 240, 255, 0.75);
-    --border: rgba(234, 240, 255, 0.16);
-    --shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
-    --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.25);
-    --radius: 18px;
-    --radius-sm: 12px;
-    --ring: 0 0 0 4px rgba(124, 168, 255, 0.22);
-
-    --brand: #7ca8ff;
-    --brand-2: #9a7cff;
-    --cta: linear-gradient(135deg, var(--brand), var(--brand-2));
-
-    --space-1: 8px;
-    --space-2: 12px;
-    --space-3: 16px;
-    --space-4: 20px;
-    --space-5: 28px;
-    --space-6: 40px;
-
-    --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Inter, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
-}
-
-html, body{
-    height: 100%;
-}
-
-body{
-    font-family: var(--font);
-    background: radial-gradient(1200px 800px at 20% 20%, rgba(124,168,255,0.25), transparent 60%),
-                radial-gradient(1000px 700px at 90% 10%, rgba(154,124,255,0.22), transparent 55%),
-                var(--bg);
-    color: var(--text);
-}
-
-a{
-    color: inherit;
-}
-
-button, input{
-    font-family: inherit;
-}
-
-button{
-    border: 1px solid transparent;
-    border-radius: 999px;
-    padding: 12px 18px;
-    cursor: pointer;
-    transition: transform 120ms ease, box-shadow 120ms ease, background 200ms ease, border-color 200ms ease;
-}
-
-button:active{
-    transform: translateY(1px);
-}
-
-button:focus-visible{
-    outline: none;
-    box-shadow: var(--ring);
+    font-family: 'Montserrat', sans-serif;
 }
 
 /*Header CSS stuff*/
 header{
     display: flex;
     align-items: center;
-    padding: 16px 24px;
-    background: rgba(11,18,32,0.55);
-    border-bottom: 1px solid var(--border);
-    backdrop-filter: blur(10px);
+    padding: 10px 20px;
+    background-color: #F9FAFB;
 }
 
 .BrandName{
-    font-size: 28px;
+    font-size: 40px;
     font-weight: bold;
     margin-left: 10px;
     padding-left: 10px;
-    letter-spacing: 0.2px;
 }
 
 .BrandName a{
     text-decoration: none;
-    color: var(--text);
+    color: black;
 }
 
 .logo{
@@ -97,8 +31,6 @@ header{
     height: 60px;
     border-radius: 50%;
     object-fit: cover;
-    box-shadow: 0 10px 22px rgba(0,0,0,0.35);
-    border: 1px solid rgba(255,255,255,0.18);
 }
 
 .Navbar{
@@ -108,26 +40,19 @@ header{
     margin-left: auto;
 }
 .NavbarItem{
-    font-size: 14px;
-    font-weight: 700;
+    font-size: 24px;
+    font-weight: bold;
     text-decoration: none;
-    background: rgba(255,255,255,0.10);
-    padding: 10px 14px;
-    border-radius: 999px;
-    border: 1px solid rgba(255,255,255,0.14);
-    transition: background 200ms ease, border-color 200ms ease, transform 120ms ease;
+    background-color: #CED5DB;
+    padding: 10px 12px;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
 }
 
 .NavbarItem a{
     text-decoration: none;
-    color: var(--text);
-    font-weight: 700;
-}
-
-.NavbarItem:hover{
-    background: rgba(255,255,255,0.14);
-    border-color: rgba(255,255,255,0.22);
-    transform: translateY(-1px);
+    color: black;
+    font-weight: bold;
 }
 
 /*Hero CSS stuff*/
@@ -138,7 +63,7 @@ header{
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 110px 20px; 
+    padding: 100px 20px; 
     gap: 20px;
     min-height: 100vh;
     background-size: cover;      /* Scales image to fill container completely */
@@ -148,16 +73,15 @@ header{
 
 .hero-card {
     /* Glassmorphism Effect */
-    background: var(--surface);
-    color: var(--text);
+    background: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
+    color: white;
     backdrop-filter: blur(10px);          /* This creates the blur/frosted look */
     -webkit-backdrop-filter: blur(10px);  /* For Safari support */
     
     /* Box Styling */
-    border-radius: var(--radius);
-    padding: 44px;
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow);
+    border-radius: 20px;       /* Rounded corners like Figma */
+    padding: 40px;             /* Space inside the box */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Optional subtle border */
     
     /* Ensure text stays centered inside the box */
     display: flex;
@@ -167,29 +91,15 @@ header{
     max-width: 800px;          /* Prevents it from getting too wide */
 }
 
-.Headline{
-    font-size: clamp(34px, 4.5vw, 56px);
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-}
-
-.Sub-headline{
-    font-size: clamp(16px, 2vw, 20px);
-    line-height: 1.4;
-    color: var(--muted);
-    max-width: 58ch;
-}
-
 .CTA{
-    background: var(--cta);
-    color: #0b1220;
-    border: 1px solid rgba(255,255,255,0.18);
-    padding: 14px 22px;
-    border-radius: 999px;
-    font-size: 16px;
-    font-weight: 800;
-    letter-spacing: 0.2px;
-    box-shadow: var(--shadow-soft);
+    background-color: #394E63;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .CTA a{
@@ -198,8 +108,7 @@ header{
 }
 
 .CTA:hover{
-    box-shadow: 0 18px 46px rgba(0,0,0,0.35);
-    transform: translateY(-1px);
+    background-color: #56687A;
 }
 
 /*Two column images CSS stuff*/
@@ -208,7 +117,6 @@ header{
     flex-direction: row;
     justify-content: center;
     gap: 40px;
-    padding: 60px 20px;
 }
 .graph-group{
     display: flex;
@@ -221,8 +129,6 @@ header{
     height: 200px;
     object-fit: cover;
     border-radius: 8px;
-    border: 1px solid rgba(255,255,255,0.16);
-    box-shadow: 0 14px 36px rgba(0,0,0,0.35);
 }
 
 /*Three columns CSS stuff*/
@@ -230,37 +136,14 @@ header{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
-    padding: 60px 20px 90px;
+    padding: 40px;
     max-width: 1200px;
     margin: 0 auto;
 }
 .column-card{
-    background: rgba(255,255,255,0.08);
-    padding: 24px;
-    border-radius: var(--radius-sm);
-    border: 1px solid rgba(255,255,255,0.14);
-    color: var(--text);
+    background-color: white; 
+    padding: 20px; 
+    border-radius: 12px;
+    border: 1px solid black;
     text-align: center;
-}
-
-.column-card h2{
-    margin-bottom: 10px;
-    letter-spacing: -0.01em;
-}
-
-.column-card p{
-    color: var(--muted);
-    line-height: 1.55;
-}
-
-@media (max-width: 900px){
-    .three-cols{
-        grid-template-columns: 1fr;
-        max-width: 720px;
-        gap: 14px;
-    }
-    .banda{
-        flex-direction: column;
-        align-items: center;
-    }
 }
