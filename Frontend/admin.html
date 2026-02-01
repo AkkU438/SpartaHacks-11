@@ -5,88 +5,90 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Admin Dashboard</title>
         <link rel="stylesheet" href="styles_admin.css" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com">
     </head>
     <body>
         <header class="header">
             <img src="images/FinFancyLogoFixed.png" alt="logo" class="logo" />
             <ul class="Navbar">
                 <li class="NavbarItem">
-                    <span id="connection-status" style="font-size: 0.9em; color: #888;">Not connected</span>
+                    <span id="connection-status">Not connected</span>
                 </li>
                 <li class="NavbarItem">
-                    <button id="connect-bank-btn" onclick="connectBank()" style="background: #4CAF50; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Connect Bank</button>
+                    <button id="connect-bank-btn" onclick="connectBank()">Connect Bank</button>
                 </li>
                 <li class="NavbarItem">
-                    <button onclick="logout()" style="background: #ff4d4d; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Logout</button>
+                    <button onclick="logout()">Logout</button>
                 </li>
             </ul>
         </header>
-
-        <section>
-            <div class="budget-card">
-                <h3>Monthly Budget</h3>
-                <div class="progress-container">
-                    <div id="progress-bar" class="progress-fill" style="width: 0%;"></div>
-                    <span id="progress-text">0%</span>
-                </div>
-
-                <div class="budget-stats">
-                    <p>Spent: $<span id="spent-amount">0</span></p>
-                    <p>Limit: $<span id="budget-limit">3000</span>
-                        <button id="edit-btn" onclick="toggleEdit()">Edit</button>
-                    </p>
-                </div>
-                <div id="edit-fields" style="display:none;">
-                    <input type="number" id="new-limit" placeholder="3000">
-                    <button onclick="updateBudget()">Save</button>
-                </div>
-            </div>
-        </section>
-
-        <section class="subscriptions-container">
-        <h3>Upcoming Subscriptions</h3>
-        <div id="subscription-list">
-            </div>
-        </section>
-
-        <section>
-            <div class="spending-card">
-                <h3>Daily Spending</h3>
-                <div class="spending-list">
-                    <div class="spending-row total-row">
-                        <span>Total</span>
-                        <span></span> <span id="daily-total">$0.00</span>
+        <main class="dashboard-grid">
+            <section>
+                <div class="budget-card">
+                    <h3>Monthly Budget</h3>
+                    <div class="progress-container">
+                        <div id="progress-bar" class="progress-fill" style="width: 0%;"></div>
+                        <span id="progress-text">0%</span>
                     </div>
-                    <div id="transaction-history" class="scroll-area">
+
+                    <div class="budget-stats">
+                        <p>Spent: $<span id="spent-amount">0</span></p>
+                        <p>Limit: $<span id="budget-limit">3000</span>
+                            <button id="edit-btn" onclick="toggleEdit()">Edit</button>
+                        </p>
+                    </div>
+                    <div id="edit-fields" style="display:none;">
+                        <input type="number" id="new-limit" placeholder="3000">
+                        <button onclick="updateBudget()">Save</button>
                     </div>
                 </div>
-            </div>
-        </section>
-        <section>
-            <div class="chart-card">
-                <h3>Monthly Spending</h3>
+            </section>
+            <section>
+                <div class="chart-card">
+                    <h3>Monthly Spending</h3>
 
-                <div class="chart-container">
-                    <div id="spending-chart" class="donut-chart">
-                        <div class="inner-circle">
-                        <span id="total-spent-display">$0</span>
+                    <div class="chart-container">
+                        <div id="spending-chart" class="donut-chart">
+                            <div class="inner-circle">
+                            <span id="total-spent-display">$0</span>
+                            </div>
+                        </div>
+
+                        <div id="chart-legend" class="legend">
                         </div>
                     </div>
-
-                    <div id="chart-legend" class="legend">
+                </div>
+            </section>
+            <section>
+                <div class="spending-card">
+                    <h3>Daily Spending</h3>
+                    <div class="spending-list">
+                        <div class="spending-row total-row">
+                            <span>Total</span>
+                            <span></span> <span id="daily-total">$0.00</span>
+                        </div>
+                        <div id="transaction-history" class="scroll-area">
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
-    <section>
-        <section class="goals-container">
-            <div class="goals-header">
-                <h3>Money Goals</h3>
-                <button class="add-goal-btn" onclick="openModal()">+</button>
-            </div>
-            
-            <div id="goals-list">
+            </section>
+            <section class="subscriptions-container">
+            <h3>Upcoming Subscriptions</h3>
+            <div id="subscription-list">
                 </div>
+            </section>
+
+        </main>
+        <section class="goals-wrapper">
+            <div class="goals-container">
+                <div class="goals-header">
+                    <h3>Money Goals</h3>
+                    <button class="add-goal-btn" onclick="openModal()">+</button>
+                </div>
+                
+                <div id="goals-list">
+                    </div>
+            </div>
         </section>
 
         <div id="goal-modal" class="modal-overlay">
