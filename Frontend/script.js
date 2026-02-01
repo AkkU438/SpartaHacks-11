@@ -286,20 +286,48 @@ function renderGoalsUI() {
     
     list.innerHTML = '';
     
-    goals.forEach(goal => {
+    goals.forEach((goal, index) => {
         const div = document.createElement('div');
         div.className = 'goal-item';
         
-        const nameSpan = document.createElement('span');
-        nameSpan.textContent = goal.name;
+        div.innerHTML = `
+            <div class="goal-info">
+                <span class="goal-name">${goal.name}</span>
+                <div class="goal-amounts">
+                    <span class="monthly-rate">$${goal.monthly}/m</span>
+                    <span class="total-target">Target: $${goal.total}</span>
+                </div>
+            </div>
+            <div class="goal-actions">
+                <button class="edit-goal-btn" onclick="editGoal(${index})">✎</button>
+                <button class="delete-goal-btn" onclick="deleteGoal(${index})">×</button>
+            </div>
+        `;
         
-        const monthlySpan = document.createElement('span');
-        monthlySpan.textContent = `$${goal.monthly}/m`;
-        
-        div.appendChild(nameSpan);
-        div.appendChild(monthlySpan);
         list.appendChild(div);
     });
+}
+
+function deleteGoal(index) {
+    if (confirm("Are you sure you want to delete this goal?")) {
+        goals.splice(index, 1); // Remove the goal from the array
+        renderGoalsUI();        // Refresh the list
+    }
+}
+
+function editGoal(index) {
+    const goal = goals[index];
+    
+    // Fill the modal fields with existing data
+    document.getElementById('goal-name').value = goal.name;
+    document.getElementById('goal-monthly').value = goal.monthly;
+    document.getElementById('goal-total').value = goal.total;
+    // Note: goal.date handling depends on your specific date format
+    
+    openModal();
+    
+    // Remove the old version once they hit "Save" (updated in saveGoal)
+    goals.splice(index, 1);
 }
 
 async function loadGoals() {
@@ -420,7 +448,7 @@ async function logout() {
     } catch {
         // Continue anyway
     }
-    window.location.href = '/login.html';
+    window.location.href = 'login.html';
 }
 
 // ----- Initialize -----
