@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Admin Dashboard</title>
+        <link rel="stylesheet" href="styles3.css" />
+    </head>
+    <body>
+        <header class="header">
+            <img src="images/Placeholder.png" alt="logo" class="logo" />
+            <ul class="Navbar">
+                <li class="NavbarItem"><a href="#">Nav 1</a></li>
+                <li class="NavbarItem"><a href="#">Nav 2</a></li>
+                <li class="NavbarItem"><a href="#">Nav 3</a></li>
+            </ul>
+        </header>
+
+        <section>
+            <div class="budget-card">
+                <h3>Monthly Budget</h3>
+                <div class="progress-container">
+                    <div id="progress-bar" class="progress-fill" style="width: 0%;"></div>
+                    <span id="progress-text">0%</span>
+                </div>
+
+                <div class="budget-stats">
+                    <p>Spent: $<span id="spent-amount">0</span></p>
+                    <p>Limit: $<span id="budget-limit">3000</span>
+                        <button id="edit-btn" onclick="toggleEdit()">Edit</button>
+                    </p>
+                </div>
+                <div id="edit-fields" style="display:none;">
+                    <input type="number" id="new-limit" placeholder="3000">
+                    <button onclick="updateBudget()">Save</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="subscriptions-container">
+        <h3>Upcoming Subscriptions</h3>
+        <div id="subscription-list">
+            </div>
+        </section>
+
+        <section>
+            <div class="spending-card">
+                <h3>Daily Spending</h3>
+                <div class="spending-list">
+                    <div class="spending-row total-row">
+                        <span>Total</span>
+                        <span></span> <span id="daily-total">$0.00</span>
+                    </div>
+                    <div id="transaction-history" class="scroll-area">
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section>
+            <div class="chart-card">
+                <h3>Monthly Spending</h3>
+
+                <div class="chart-container">
+                    <div id="spending-chart" class="donut-chart">
+                        <div class="inner-circle">
+                        <span id="total-spent-display">$0</span>
+                        </div>
+                    </div>
+
+                    <div id="chart-legend" class="legend">
+                    </div>
+                </div>
+            </div>
+        </section>
+    <section>
+        <section class="goals-container">
+            <div class="goals-header">
+                <h3>Money Goals</h3>
+                <button class="add-goal-btn" onclick="openModal()">+</button>
+            </div>
+            
+            <div id="goals-list">
+                </div>
+        </section>
+
+        <div id="goal-modal" class="modal-overlay">
+            <div class="modal-content">
+                <h4>Add New Savings Goal</h4>
+                <input type="text" id="goal-name" placeholder="Goal Name (e.g. Japan 2030)">
+                <input type="month" id="goal-date">
+                <input type="number" id="goal-monthly" placeholder="Monthly Contribution ($)">
+                <input type="number" id="goal-total" placeholder="Total Target Amount ($)">
+                <div class="modal-actions">
+                    <button onclick="closeModal()">Cancel</button>
+                    <button class="save-btn" onclick="saveGoal()">Add Goal</button>
+                </div>
+            </div>
+        </div>
+    </section>
+        <script src="script.js" defer></script>
+    </body>
+</html>
