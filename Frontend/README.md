@@ -1,4 +1,4 @@
-# FinFancier Frontend
+# FinFancy Frontend
 
 A subscription and budget tracking dashboard.
 
